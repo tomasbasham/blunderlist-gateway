@@ -1,0 +1,9 @@
+.git/
+
+.dockerignore
+.editorconfig
+.env
+.gitignore
+.travis.yml
+Dockerfile
+README.md

@@ -1,0 +1,19 @@
+---
+language: generic
+
+sudo: required
+dist: trusty
+
+services:
+- docker
+
+install:
+- docker build -t gateway --target builder .
+
+script:
+- docker run --rm gateway golint ./...
+- docker run --rm gateway go vet ./...
+- docker run --rm gateway go test ./...
+
+notifications:
+  email: false
