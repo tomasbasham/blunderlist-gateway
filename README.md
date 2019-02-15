@@ -46,7 +46,18 @@ You will need the following things properly installed on your computer.
 
 * `docker build -t gateway --target builder .`
 
+## Design
+
+The gateway makes several calls to two other services before aggregating the
+results into a single JSON payload. This can be seen in the following:
+
+![list-tasks][list-tasks]\
+[diagram][list-tasks-diagram]
+
 ## Further Reading / Useful Links
 
 * [Go](https://golang.org/)
 * [json:api](https://jsonapi.org/)
+
+[list-tasks]: /diagrams/list-tasks.svg?raw=true&sanitize=true "List Tasks"
+[list-tasks-diagram]: https://sequencediagram.org/index.html#initialData=C4S2BsFMAIBkQM7GgFQIYINYIFA7QK7AD2AdgQLYBGkATtPkcWgMagBuaoZeADmrVAsQ-UsgBEAQQAKASWgBxLpADuaAJ7joGaAHNla9Tn6CQw0RJTEAJsWgBlOuzOQtOkreMChItGOjiAMLEFBSQ-o60ziyu2gjQLCFhYnj6wKoaALQAfB7EAFwAPIngxLT5AMS0kNbZAPR18EjoWAgNhXUlZdkAFACUOHmZOWkZ6vnAGNh4pcS80ABmZdCQrAAW0JNYOKOGOYmh4cBFXeVVNfWNiMDBh2JtdR2nvVuYAwfJwMPZuxr5H0ccOFrNAgA
