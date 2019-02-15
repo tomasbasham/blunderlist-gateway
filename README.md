@@ -1,7 +1,22 @@
 # blunderlist-gateway
 
-This README outlines the details of collaborating on this Go application. A
-short introduction of this app could easily go here.
+A fictitious todo application through which to teach how to implement a
+microservice architecture. For the full list of services required to run this
+application visit
+[Blunderlist](https://github.com/tomasbasham?utf8=✓&tab=repositories&q=blunderlist)
+on GitHub.
+
+This repository implements an API gateway that aggregates data from multiple
+backends, acting as the single entry point for all clients. The API gateway
+handles requests in one of two ways. Some requests are simply proxied/routed to
+the appropriate service whilst others are handled by fanning out to multiple
+services.
+
+The intent of this repository is to provided an isolated layer between client
+and services to abstract how the application as a whole is separated into its
+component services. In addition it provides the most optimal API surface for
+the intended client, as opposed to exposing redundant interfaces that
+complicated interactions.
 
 ## Prerequisites
 
