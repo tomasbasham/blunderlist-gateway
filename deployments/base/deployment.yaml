@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blunderlist-gateway
+  labels:
+    app.kubernetes.io/name: blunderlist-gateway
+    app.kubernetes.io/instance: blunderlist-gateway
+    app.kubernetes.io/version: "0.0.0"
+    app.kubernetes.io/component: gateway
+    app.kubernetes.io/part-of: blunderlist
+    app.kubernetes.io/managed-by: kustomize
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: blunderlist-gateway
+      app.kubernetes.io/instance: blunderlist-gateway
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: blunderlist-gateway
+        app.kubernetes.io/instance: blunderlist-gateway
+        serving: "true"
+    spec:
+      containers:
+      - name: blunderlist-gateway
+        image: blunderlist/gateway:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - name: gateway
+          containerPort: 8080
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: http

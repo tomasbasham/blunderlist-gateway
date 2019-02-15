@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blunderlist-gateway
+  labels:
+    app.kubernetes.io/name: blunderlist-gateway
+    app.kubernetes.io/instance: blunderlist-gateway
+    app.kubernetes.io/version: "0.0.0"
+    app.kubernetes.io/component: gateway
+    app.kubernetes.io/part-of: blunderlist
+    app.kubernetes.io/managed-by: kustomize
+spec:
+  template:
+    spec:
+      containers:
+      - name: extensible-service-proxy
+        image: gcr.io/endpoints-release/endpoints-runtime:1
+        args: [
+          "--http_port",        "8000",
+          "--backend",          "http://127.0.0.1:8080",
+          "--service",          "gateway.blunderlist.endpoints.dev-servers-170213.cloud.goog",
+          "--rollout_strategy", "managed"
+        ]
+        ports:
+        - name: proxy
+          containerPort: 8000
+          protocol: TCP
+      - name: blunderlist-gateway
+        image: eu.gcr.io/dev-servers-170213/blunderlist/gateway:latest

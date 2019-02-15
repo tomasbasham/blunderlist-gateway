@@ -26,6 +26,11 @@ You will need the following things properly installed on your computer.
 * [Go](https://golang.org/)
 * [Docker](https://www.docker.com/)
 
+Optionally to run deployments manually the following tools must be present:
+
+* [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+* [kustomize](https://github.com/kubernetes-sigs/kustomize)
+
 ## Installation
 
 * `git clone <repository-url>` this repository
@@ -53,6 +58,25 @@ results into a single JSON payload. This can be seen in the following:
 
 ![list-tasks][list-tasks]\
 [diagram][list-tasks-diagram]
+
+## Debugging Running Pods
+
+When there is a problematic pod running within a cluster it may not be
+desirable to destroy it without first understanding what went wrong. Instead
+the pod should be removed from the load balancer and inspected whilst no longer
+serving traffic.
+
+This has been accomplished through the use of labels and selectors within the
+Kubernetes manifest files. In particular there is a serving: true label that
+indicates to Kubernetes that a pod should be placed within the load balancer
+and should be serving traffic. For a pod to be removed from the load balancer
+it's labels must be edited in place.
+
+    kubectl --namespace=neptune label pods/<POD NAME> --overwrite serving=false
+
+The replication controller will spin up a new pod to replace the one taken from
+the load balancer whilst the problematic pod will remain active for inspection
+but not available to serve traffic.
 
 ## Further Reading / Useful Links
 
