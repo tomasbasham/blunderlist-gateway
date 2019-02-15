@@ -1,0 +1,46 @@
+steps:
+
+# Build the Docker image.
+- name: "gcr.io/cloud-builders/docker"
+  args: [
+    'build',
+    '--tag', 'eu.gcr.io/$PROJECT_ID/blunderlist/gateway:$COMMIT_SHA',
+    '--tag', 'eu.gcr.io/$PROJECT_ID/blunderlist/gateway:latest',
+    '--label', 'org.label-schema.build-date="$(date -Is)"',
+    '--label', 'org.label-schema.name="Blunderlist Gateway API"',
+    '--label', 'org.label-schema.description="Go API backend for the Blunderlist Frontend"',
+    '--label', 'org.label-schema.url="https://blunderlist.com"',
+    '--label', 'org.label-schema.vcs-url="https://github.com/tomasbasham/blunderlist-gateway/"',
+    '--label', 'org.label-schema.vcs-ref="$COMMIT_SHA"',
+    '--label', 'org.label-schema.vendor="Tomas Basham"',
+    '--label', 'org.label-schema.version="$TAG_NAME"',
+    '--label', 'org.label-schema.schema-version="1.0"',
+    '.'
+  ]
+
+# Push image to registry.
+- name: gcr.io/cloud-builders/docker
+  args: ['push', 'eu.gcr.io/$PROJECT_ID/blunderlist/gateway:$COMMIT_SHA']
+
+# Set image tag in deployment.
+- name: eu.gcr.io/$PROJECT_ID/kustomize:3.4.0
+  args: ['edit', 'set', 'image', 'eu.gcr.io/$PROJECT_ID/blunderlist/gateway:$COMMIT_SHA']
+  dir: deployments/overlays/development
+
+# Generate manifests.
+- name: eu.gcr.io/$PROJECT_ID/kustomize:3.4.0
+  entrypoint: 'bash'
+  args:
+  - '-c'
+  - |
+    kustomize build --enable_alpha_plugins deployments/overlays/development > ./manifests.yaml
+
+# Deploy release to Kubernetes Engine.
+- name: gcr.io/cloud-builders/kubectl
+  args: ['apply', '-f', './manifests.yaml']
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=europe-west2-b'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=istio-cluster'
+
+images:
+- "eu.gcr.io/$PROJECT_ID/blunderlist/gateway:latest"
