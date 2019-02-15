@@ -1,4 +1,4 @@
-# blunderlist-gateway
+# blunderlist-gateway [![Build Status](https://travis-ci.com/tomasbasham/blunderlist-gateway.svg?branch=master)](https://travis-ci.com/tomasbasham/blunderlist-gateway)
 
 A fictitious todo application through which to teach how to implement a
 microservice architecture. For the full list of services required to run this
