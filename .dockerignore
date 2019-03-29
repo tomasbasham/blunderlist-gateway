@@ -6,4 +6,5 @@
 .gitignore
 .travis.yml
 Dockerfile
+openapi.yaml
 README.md

@@ -1,0 +1,378 @@
+---
+swagger: "2.0"
+info:
+  title: "Blunderlist Gateway"
+  description: "API gateway for the Blunderlist backend microservices"
+  version: "1.0.0"
+  contact:
+    name: "Tomas Basham"
+    email: "tomasbasham@gmail.com"
+    url: "https://tomasbasham.dev"
+  license:
+    name: "MIT"
+    url: "https://github.com/tomasbasham/blunderlist-gateway/blob/master/LICENSE.md"
+host: "gateway.blunderlist.endpoints.dev-servers-170213.cloud.goog"
+consumes:
+- "application/vnd.api+json"
+produces:
+- "application/vnd.api+json"
+schemes:
+- "http"
+paths:
+  "/comments":
+    post:
+      operationId: "create-new-comment"
+      description: "Create new comment"
+      parameters:
+      - name: "comment"
+        description: "Comment"
+        in: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Comment"
+      responses:
+        201:
+          description: "Created"
+          schema:
+            $ref: "#/definitions/Comment"
+        422:
+          description: "Unprocessible Entity"
+        default:
+          description: "Unexpected Errors"
+          schema:
+            $ref: "#/definitions/Errors"
+
+  "/comments/{id}":
+    get:
+      operationId: "get-comment"
+      description: "Get comment"
+      parameters:
+      - name: "id"
+        description: "Comment ID"
+        in: "path"
+        type: "integer"
+        format: "int64"
+        required: true
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Comment"
+        default:
+          description: "Unexpected Errors"
+          schema:
+            $ref: "#/definitions/Errors"
+
+    put:
+      operationId: "update-comment"
+      description: "Update comment"
+      parameters:
+      - name: "id"
+        description: "Comment ID"
+        in: "path"
+        type: "integer"
+        format: "int64"
+        required: true
+      - name: "comment"
+        description: "Comment"
+        in: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Comment"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Comment"
+        default:
+          description: "Unexpected Errors"
+          schema:
+            $ref: "#/definitions/Errors"
+
+    patch:
+      operationId: "patch-comment"
+      description: "Patch Comment"
+      parameters:
+      - name: "id"
+        description: "Comment ID"
+        in: "path"
+        type: "integer"
+        format: "int64"
+        required: true
+      - name: "comment"
+        description: "Comment"
+        in: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Comment"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Comment"
+        default:
+          description: "Unexpected Errors"
+          schema:
+            $ref: "#/definitions/Errors"
+
+    delete:
+      operationId: "delete-comment"
+      description: "Delete comment"
+      parameters:
+      - name: "id"
+        description: "Comment ID"
+        in: "path"
+        type: "integer"
+        format: "int64"
+        required: true
+      responses:
+        204:
+          description: "No Content"
+        default:
+          description: "Unexpected Errors"
+          schema:
+            $ref: "#/definitions/Errors"
+
+  "/tasks":
+    get:
+      operationId: "get-all-tasks"
+      description: "Get all tasks"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "object"
+            properties:
+              data:
+                type: "array"
+                items:
+                  $ref: "#/definitions/Task"
+              included:
+                type: "array"
+                items:
+                  $ref: "#/definitions/Comment"
+        default:
+          description: "Unexpected Errors"
+          schema:
+            $ref: "#/definitions/Errors"
+
+    post:
+      operationId: "create-new-task"
+      description: "Create new task"
+      parameters:
+      - name: "task"
+        description: "Task"
+        in: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Task"
+      responses:
+        201:
+          description: "Created"
+          schema:
+            $ref: "#/definitions/Task"
+        422:
+          description: "Unprocessible Entity"
+        default:
+          description: "Unexpected Errors"
+          schema:
+            $ref: "#/definitions/Errors"
+
+  "/tasks/{id}":
+    get:
+      operationId: "get-task"
+      description: "Get task"
+      parameters:
+      - name: "id"
+        description: "Task ID"
+        in: "path"
+        type: "integer"
+        format: "int64"
+        required: true
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Task"
+        default:
+          description: "Unexpected Errors"
+          schema:
+            $ref: "#/definitions/Errors"
+
+    put:
+      operationId: "update-task"
+      description: "Update task"
+      parameters:
+      - name: "id"
+        description: "Task ID"
+        in: "path"
+        type: "integer"
+        format: "int64"
+        required: true
+      - name: "task"
+        description: "Task"
+        in: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Task"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Task"
+        default:
+          description: "Unexpected Errors"
+          schema:
+            $ref: "#/definitions/Errors"
+
+    patch:
+      operationId: "patch-task"
+      description: "Patch Task"
+      parameters:
+      - name: "id"
+        description: "Task ID"
+        in: "path"
+        type: "integer"
+        format: "int64"
+        required: true
+      - name: "task"
+        description: "Task"
+        in: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/Task"
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Task"
+        default:
+          description: "Unexpected Errors"
+          schema:
+            $ref: "#/definitions/Errors"
+
+    delete:
+      operationId: "delete-task"
+      description: "Delete task"
+      parameters:
+      - name: "id"
+        description: "Task ID"
+        in: "path"
+        type: "integer"
+        format: "int64"
+        required: true
+      responses:
+        204:
+          description: "No Content"
+        default:
+          description: "Unexpected Errors"
+          schema:
+            $ref: "#/definitions/Errors"
+
+  "/tasks/{id}/comments":
+    get:
+      operationId: "get-all-comments"
+      description: "Get all comments"
+      parameters:
+      - name: "id"
+        description: "Task ID"
+        in: "path"
+        type: "integer"
+        format: "int64"
+        required: true
+      responses:
+        200:
+          description: "OK"
+          schema:
+            type: "object"
+            properties:
+              data:
+                type: "array"
+                items:
+                  $ref: "#/definitions/Comment"
+        default:
+          description: "Unexpected Errors"
+          schema:
+            $ref: "#/definitions/Errors"
+
+definitions:
+  Comment:
+    type: "object"
+    properties:
+      type:
+        type: "string"
+      id:
+        type: "integer"
+        format: "int64"
+      attributes:
+        type: "object"
+        properties:
+          author:
+            type: "string"
+          created-at:
+            type: "string"
+            format: "date"
+          text:
+            type: "string"
+          task-id:
+            type: "integer"
+            format: "int64"
+
+  Errors:
+    type: "array"
+    items:
+      $ref: "#/definitions/Error"
+
+  Error:
+    required:
+    - status
+    - title
+    - detail
+    properties:
+      status:
+        type: "integer"
+        format: "int32"
+      source:
+        type: "object"
+        properties:
+          pointer:
+            type: "string"
+      title:
+        type: "string"
+      detail:
+        type: "string"
+
+  Task:
+    type: "object"
+    properties:
+      type:
+        type: "string"
+      id:
+        type: "integer"
+        format: "int64"
+      attributes:
+        type: "object"
+        properties:
+          completed:
+            type: "boolean"
+          created-at:
+            type: "string"
+            format: "date"
+          title:
+            type: "string"
+      relationships:
+        type: "object"
+        properties:
+          comments:
+            type: "object"
+            properties:
+              data:
+                type: "array"
+                items:
+                  type: "object"
+                  properties:
+                    type:
+                      type: "string"
+                    id:
+                      type: "integer"
+                      format: "int64"
