@@ -3,12 +3,14 @@ FROM golang:1.13-alpine3.10 as builder
 WORKDIR /usr/src/app
 
 RUN apk add --no-cache ca-certificates gcc git libc-dev \
-  && go get -u golang.org/x/lint/golint
+  && go get -u golang.org/x/lint/golint \
+  && go get -u github.com/golang/mock/mockgen
 
 COPY go.mod .
 COPY go.sum .
 
 RUN go mod download
+RUN go generate ./...
 
 COPY . .
 
