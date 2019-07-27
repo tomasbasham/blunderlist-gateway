@@ -4,8 +4,23 @@ language: generic
 sudo: required
 dist: trusty
 
+env:
+  global:
+  - PACT_STANDALONE_VERSION=1.69.0-linux-x86_64
+
+  - PACT_BROKER=https://blunderlist.pact.dius.com.au/
+  - PACT_TAGS=blunderlist,frontend,production
+  - PACT_PUBLISH_VERIFICATION_RESULTS=true
+    # PACT_BROKER_TOKEN
+  - secure: "XElpab1LeVdjcVl8Y1ZBFjVBH74XdYlwuSyyEKGmThaBwZORqN9uu5mYxS1ttmDE4BDENMY2T9dJ5crZmz/8vtI3jRr6dC/onnGW1y4tqGI4qj4DMmkwWsWTAP/U0SghsL4FIGGzZuUBIsXf6pfgf8Dpv/Tf5r3IzP34cQnPDLAl/sAfvrI4nszcnLyJ5SO1AUgITAkcq6d/RL86Gzhv6abgI5RSEbukngw2GkCkzFnFk+P8P7rxSIv/euzJg1g+ppJQoRqbc0gbRsc55A/tTurgaKLpUbVi7NVuz77agXqlXhaYdvwqnxD3qkbNOt+WZxXL1fdoqvyoQygk5P3rCXGEXqGXuevs55GztuiJF1N7lz7OUSX941nIskGNHa8fCbYTE3G9U1gk/HIFXMT1G21pWRa+IezazcfXIWXS0NgMRQAtjJgyevWMaNoYy9iXXi2xAyLr61UIh82jOIPzR2PW7cht5AalcGBR1cJj5wQjz1HqLa4m5inSg+6I3Q+9EiEC1L0xG7gZ5zpI0qykziQRk3ahZqht+ZK3B6x5iei269lqE3NAp8gX8YR69068byOWnMA/3vP4PCH1D+bWM565rDDOElxB99ElkmTTe25qgqAOJJ66/7tSDpQiNhiE6uRrL9hfQhmFLf2EpVyevIZyxTIb5MFIQ9S+S25FyQY="
+
 services:
 - docker
+
+before_install:
+- curl -SsL -O https://github.com/pact-foundation/pact-ruby-standalone/releases/download/v1.69.0/pact-$PACT_STANDALONE_VERSION.tar.gz
+- tar -xzf pact-$PACT_STANDALONE_VERSION.tar.gz -C $HOME
+- export PATH=$PATH:$HOME/pact/bin
 
 install:
 - docker build -t gateway --target builder .
