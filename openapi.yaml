@@ -18,6 +18,8 @@ produces:
 - "application/vnd.api+json"
 schemes:
 - "http"
+security:
+- jwt: []
 paths:
   "/comments":
     post:
@@ -376,3 +378,11 @@ definitions:
                     id:
                       type: "integer"
                       format: "int64"
+
+securityDefinitions:
+  jwt:
+    authorizationUrl: ""
+    flow: "implicit"
+    type: "oauth2"
+    x-google-issuer: "blunderlist-cloudsql@dev-servers-170213.iam.gserviceaccount.com"
+    x-google-jwks_uri: "https://www.googleapis.com/robot/v1/metadata/x509/blunderlist-cloudsql@dev-servers-170213.iam.gserviceaccount.com"
