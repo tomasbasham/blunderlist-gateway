@@ -11,6 +11,10 @@ metadata:
     app.kubernetes.io/managed-by: kustomize
 spec:
   template:
+    metadata:
+      annotations:
+        # Bypass envoy when making external outbound requests.
+        traffic.sidecar.istio.io/includeOutboundIPRanges: "10.52.0.0/14,10.55.240.0/20"
     spec:
       containers:
       - name: extensible-service-proxy
